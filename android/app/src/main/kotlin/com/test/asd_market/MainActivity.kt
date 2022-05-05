@@ -1,0 +1,6 @@
+package com.test.asd_market
+
+import io.flutter.embedding.android.FlutterActivity
+
+class MainActivity: FlutterActivity() {
+}
