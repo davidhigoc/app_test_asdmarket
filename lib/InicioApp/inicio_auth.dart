@@ -1,8 +1,9 @@
 import 'package:asd_market/InicioApp/carga.dart';
+import 'package:asd_market/InicioApp/home.dart';
 import 'package:asd_market/Service/Provider/media.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 
 class IncioAuth extends StatefulWidget {
   const IncioAuth({Key? key}) : super(key: key);
@@ -13,7 +14,6 @@ class IncioAuth extends StatefulWidget {
 
 class _MyHomePageState extends State<IncioAuth> {
   // * VARIABLES
-  User? firebaseUser;
   bool cargaBAN = true;
 
   // * FUNCIONES
@@ -33,10 +33,7 @@ class _MyHomePageState extends State<IncioAuth> {
 
   @override
   Widget build(BuildContext context) {
-    final media = Provider.of<Media>(context);
-    firebaseUser = Provider.of<User?>(context);
-    // final usuarioIDsCarpeta = Provider.of<UsuarioIDs>(context);
-
+    final media = Provider.of<Media>(context, listen: false);
     // Construimos iniciales de contexto
     media.iniciales(
         anchoX: (MediaQuery.of(context).size.width),
@@ -45,7 +42,13 @@ class _MyHomePageState extends State<IncioAuth> {
             (MediaQuery.of(context).padding.top),
         topX: (MediaQuery.of(context).padding.top));
 
+    // final firebaseUser = Provider.of<User?>(context);
+
+    // final usuarioIDsCarpeta = Provider.of<UsuarioIDs>(context);
+
     // final init = GetStorage();
+
+    // print(firebaseUser);
 
     // ? INICIALIZAR INTRO
     // init.remove('Intro');
@@ -61,11 +64,11 @@ class _MyHomePageState extends State<IncioAuth> {
           height: media.alto,
           child: Stack(
             children: [
-              // * Intro
+              // * Home App (Principal)
               SizedBox(
                 width: media.ancho,
                 height: media.alto,
-                child: Container(),
+                child: const Home(),
               ),
               // * Carga
               if (cargaBAN) const Carga(),

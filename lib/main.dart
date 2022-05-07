@@ -1,4 +1,7 @@
 import 'package:asd_market/InicioApp/inicio_auth.dart';
+import 'package:asd_market/Service/Auth/auth_service.dart';
+import 'package:asd_market/Service/Provider/user_id.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:asd_market/Service/Provider/media.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -25,12 +28,24 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => Media(),
         ),
+        // NOTIFICACIONES DE LOGIN
+        Provider<ElUser>(
+          create: (_) => ElUser(FirebaseAuth.instance),
+        ),
+        StreamProvider(
+          initialData: null,
+          create: (context) => context.read<ElUser>().authStateChanges,
+        ),
+        // NOTIFICACIONES DE USUARIO
+        ChangeNotifierProvider(
+          create: (_) => UsID(),
+        ),
       ],
       child: MaterialApp(
         title: 'ASD Market',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          primarySwatch: Colors.lime,
+          primarySwatch: Colors.blueGrey,
         ),
         home: const IncioAuth(),
       ),
