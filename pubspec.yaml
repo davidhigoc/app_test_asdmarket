@@ -37,6 +37,9 @@ dev_dependencies:
   firebase_storage: ^10.2.15
   provider: ^6.0.2
   get_storage: ^2.0.3
+  image_picker: ^0.8.5
+  image_cropper: ^2.0.2
+
   # change_app_package_name: ^1.0.0
 
 # For information on the generic Dart part of this file, see the
@@ -56,6 +59,7 @@ flutter:
     - Assets/Images/Base/Icon1.png
     - Assets/Images/Base/Icon2.png
     - Assets/Images/Base/titulo_App.png
+    - Assets/Images/Base/Estrellas.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
