@@ -1,3 +1,5 @@
+import 'package:asd_market/Service/Firebase/firestore.dart';
+import 'package:asd_market/Service/Firebase/storage.dart';
 import 'package:asd_market/Service/Provider/media.dart';
 import 'package:asd_market/Service/Provider/user_id.dart';
 import 'package:asd_market/Service/Widgets/widget.dart';
@@ -68,22 +70,53 @@ class _PageUserState extends State<EditPerfil> {
   }
 
   Future guardarAcc() async {
+    UsID userID = Provider.of<UsID>(context, listen: false);
+    List laResp = [500, ""];
+
     setState(() {
       esperar = true;
       menBAN = false;
     });
-    /* if (fotoUR != null || nombreC.text.isNotEmpty || telC.text.isNotEmpty) {
 
-    } */
-
-    if (nombreC.text.isNotEmpty && telC.text.isNotEmpty) {
-    } else {
-      men = "Debes diligenciar todos los datos de contacto";
-      menBAN = true;
+    // ? 1. PRIMERO SUBIMOS FOTO DE USUARIO PARA ADQUIRIR SU URL
+    // ? ESTO DE MANERA ORDENADA EN FIRE-STORAGE...
+    // * Evaluamos si usuario cambio su foto de perfil
+    if (fotoUR != null) {
+      laResp = await fotoUploadFile(fotoUR!, userID.uPri!.data());
+      if (laResp[0] == 200) {
+        fotoUR = null;
+        // ignore: avoid_print
+        print("📷📤");
+      }
     }
+    // ? 2. ACTUALIZAMOS DOCUMENTO PUBLICO DEL USUARIO
+    // ? SEGÚN LOS CAMBIOS QUE SE HAYAN DEFINIDO.
+    fireUser
+        .doc("Public")
+        .collection("${userID.uPri!["Year"]}")
+        .doc("${userID.uPri!["Asinu"]}")
+        .update({
+      "Foto": laResp[0] == 200 ? laResp[1] : userID.uPub!["Foto"],
+      "Nombre":
+          nombreC.text.isEmpty ? userID.uPub!["Nombre"] : nombreC.text.trim(),
+      "Tel": telC.text.isEmpty ? userID.uPub!["Tel"] : telC.text.trim(),
+    });
+
     setState(() {
       esperar = false;
     });
+  }
+
+  @override
+  void initState() {
+    UsID userID = Provider.of<UsID>(context, listen: false);
+    if (userID.uPub!["Nombre"] != null) {
+      nombreC.text = userID.uPub!["Nombre"];
+    }
+    if (userID.uPub!["Tel"] != null) {
+      telC.text = userID.uPub!["Tel"];
+    }
+    super.initState();
   }
 
   @override
@@ -145,12 +178,10 @@ class _PageUserState extends State<EditPerfil> {
                               children: [
                                 SizedBox(
                                   width: ancho - (70 + 160),
-                                  child: Text(
-                                    userID.uPub!["Nombre"] != null
-                                        ? "${userID.uPub!["Nombre"]}"
-                                        : "Mi Perfil",
+                                  child: const Text(
+                                    "Editar perfil",
                                     maxLines: 2,
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold,
@@ -231,7 +262,7 @@ class _PageUserState extends State<EditPerfil> {
                   child: SizedBox(
                     width: ancho - 50,
                     child: Text(
-                      "${userID.uPub!["ConU"]["Correo"]}",
+                      "${userID.uPub!["Correo"]}",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.grey.shade800,
@@ -339,7 +370,15 @@ class _PageUserState extends State<EditPerfil> {
                       Color(media.azul),
                     ),
                   ),
-                  child: const Text("Guardar"),
+                  child: !esperar
+                      ? const Text("Guardar")
+                      : const SizedBox(
+                          width: 25,
+                          height: 25,
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                          ),
+                        ),
                 ),
                 // Info
                 Padding(

@@ -80,10 +80,12 @@ class _PageUserState extends State<PageUser> {
                               children: [
                                 SizedBox(
                                   width: ancho - (70 + 160),
-                                  child: const Text(
-                                    "Editar perfil",
+                                  child: Text(
+                                    userID.uPub!["Nombre"] != null
+                                        ? "${userID.uPub!["Nombre"]}"
+                                        : "Editar perfil",
                                     maxLines: 2,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold,

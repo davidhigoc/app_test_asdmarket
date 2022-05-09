@@ -3,6 +3,7 @@ import 'package:asd_market/Service/Firebase/firestore.dart';
 import 'package:asd_market/Service/Provider/media.dart';
 import 'package:asd_market/Service/Provider/user_id.dart';
 import 'package:asd_market/Service/Widgets/widget.dart';
+import 'package:asd_market/Store/new_product.dart';
 import 'package:asd_market/User/page_user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -28,6 +29,8 @@ class _HomeState extends State<Home> {
   }
 
   Future contenidoP() async {
+    final media = Provider.of<Media>(context, listen: false);
+
     await Future.delayed(const Duration(milliseconds: 800));
     conIni = await fireStore.doc("Info").get();
     // print(conIni);
@@ -39,7 +42,7 @@ class _HomeState extends State<Home> {
           categorias.add(item.data());
         }
         setState(() {
-          categorias;
+          media.categorias = categorias;
         });
       }
     });
@@ -177,7 +180,13 @@ class _HomeState extends State<Home> {
                             child: Padding(
                               padding: const EdgeInsets.only(bottom: 10.0),
                               child: ElevatedButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => const NewProduct(),
+                                    ),
+                                  );
+                                },
                                 style: ButtonStyle(
                                   shape: MaterialStateProperty.all(
                                     RoundedRectangleBorder(

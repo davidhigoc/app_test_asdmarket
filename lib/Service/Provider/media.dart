@@ -10,11 +10,14 @@ class Media with ChangeNotifier {
   final int ama = 0xffE9D839; // 005070
   final int azul = 0xff005070;
 
-  // Changes Publico
+  // dimensiones basicas
   double ancho = 0.0;
   double alto = 0.0;
   double altop = 0.0;
   double top = 0.0;
+
+  // categorias [Logica - Store]
+  List categorias = [];
 
   // * FUNCIONES GLOBALES
   // Fundamentos iniciales del context

@@ -11,7 +11,7 @@ Container fotoURL(double diametro, String url, dynamic color) {
           blurRadius: diametro / 3,
           color: Colors.black,
           spreadRadius: 1,
-        )
+        ),
       ],
     ),
     child: CircleAvatar(
