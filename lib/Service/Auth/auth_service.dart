@@ -103,12 +103,10 @@ class ElUser {
     var userID = Provider.of<UsID>(context, listen: false);
 
     if (firebaseUser != null) {
+      Navigator.of(context).pop();
       await _firebaseAuth.signOut().whenComplete(() {
         userID.resetUsuario();
       });
-    } else {
-      // ignore: avoid_print
-      // print(" *** Usuario deslogueado... ");
-    }
+    } else {}
   }
 }

@@ -60,6 +60,10 @@ flutter:
     - Assets/Images/Base/Icon2.png
     - Assets/Images/Base/titulo_App.png
     - Assets/Images/Base/Estrellas.png
+    - Assets/Images/Base/Intro_1.png
+    - Assets/Images/Base/Intro_2.png
+    - Assets/Images/Base/Intro_3.png
+    - Assets/Images/Base/techo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

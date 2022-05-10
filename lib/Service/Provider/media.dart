@@ -1,8 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 
 class Media with ChangeNotifier {
   // ! DB
   // ? INICIALIZACIÓN
+  GetStorage dbInit(String dbEsp) {
+    // ignore: avoid_print
+    print("Iniciando DB -> $dbEsp");
+    GetStorage initDB = GetStorage(dbEsp);
+    return initDB;
+  }
+
+  dbSave(GetStorage contenedor, String clave, dynamic valor) {
+    final init = contenedor;
+    init.write(clave, valor);
+    notifyListeners();
+  }
 
   // ! VARIABLES
   // Finals Publico

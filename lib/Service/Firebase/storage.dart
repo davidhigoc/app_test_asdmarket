@@ -33,3 +33,44 @@ Future<List> fotoUploadFile(File fotoP, Map<String, dynamic>? user) async {
   return [resp, urlFoto];
   // StorageUploadTask tarea = await refAsinu.child("${user["Asinu"]}").putFile(fotoP);
 }
+
+Future<List> newAnunStorage(
+    Map<String, dynamic>? user, int cons, List<File> imaList) async {
+  int resp = 200;
+  List<String?> urlS =
+      List<String?>.filled(imaList.length, null, growable: true);
+
+  for (var z = 0; z <= imaList.length - 1; z++) {
+    await refAsinu
+        .child("${user!["Asinu"]}")
+        .child("Anun")
+        .child("Anun$cons")
+        .child("FotoA$z.jpg")
+        .putFile(imaList[z])
+        .then((p0) async {
+      if (p0.state == TaskState.success) {
+        await refAsinu
+            .child("${user["Asinu"]}")
+            .child("Anun")
+            .child("Anun$cons")
+            .child("FotoA$z.jpg")
+            .getDownloadURL()
+            .then((url) {
+          urlS[z] = url;
+        });
+      }
+    });
+  }
+
+  for (var item in urlS) {
+    if (item == null) {
+      resp = 500;
+    }
+  }
+  if (resp == 200) {
+    // ignore: avoid_print
+    print("📸📤");
+  }
+
+  return [resp, urlS];
+}

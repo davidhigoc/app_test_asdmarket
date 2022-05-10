@@ -46,15 +46,15 @@ class _ProcesoB extends State<Carga> {
           ),
           child: Center(
             child: Container(
-              width: 120,
-              height: 120,
+              width: 150,
+              height: 150,
               decoration: const BoxDecoration(
                 color: Colors.white,
                 shape: BoxShape.circle,
                 image: DecorationImage(
-                  image: AssetImage("Assets/Images/Base/Icon1.png"),
+                  image: AssetImage("Assets/Images/Base/Icon2.png"),
                   fit: BoxFit.cover,
-                  scale: 0.2,
+                  // scale: 0.2,
                 ),
               ),
               child: SizedBox(

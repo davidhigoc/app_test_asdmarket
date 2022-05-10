@@ -225,13 +225,6 @@ class _HomeState extends State<Home> {
                     width: ancho - 20,
                     decoration: const BoxDecoration(
                       color: Colors.white,
-                      /* gradient: RadialGradient(
-                      radius: 4.0,
-                      colors: [
-                        Color(media.azul),
-                        Color(media.morado),
-                      ],
-                    ), */
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(30),
                         topRight: Radius.circular(30),

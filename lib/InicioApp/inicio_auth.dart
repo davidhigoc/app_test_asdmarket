@@ -1,6 +1,8 @@
 import 'package:asd_market/InicioApp/carga.dart';
 import 'package:asd_market/InicioApp/home.dart';
+import 'package:asd_market/InicioApp/intro.dart';
 import 'package:asd_market/Service/Provider/media.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
@@ -33,7 +35,7 @@ class _MyHomePageState extends State<IncioAuth> {
 
   @override
   Widget build(BuildContext context) {
-    final media = Provider.of<Media>(context, listen: false);
+    final media = Provider.of<Media>(context, listen: true);
     // Construimos iniciales de contexto
     media.iniciales(
         anchoX: (MediaQuery.of(context).size.width),
@@ -42,11 +44,7 @@ class _MyHomePageState extends State<IncioAuth> {
             (MediaQuery.of(context).padding.top),
         topX: (MediaQuery.of(context).padding.top));
 
-    // final firebaseUser = Provider.of<User?>(context);
-
-    // final usuarioIDsCarpeta = Provider.of<UsuarioIDs>(context);
-
-    // final init = GetStorage();
+    final init = GetStorage();
 
     // print(firebaseUser);
 
@@ -65,20 +63,30 @@ class _MyHomePageState extends State<IncioAuth> {
           child: Stack(
             children: [
               // * Home App (Principal)
-              SizedBox(
+              Container(
                 width: media.ancho,
                 height: media.alto,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Color(media.ama),
+                      Color(media.verde),
+                    ],
+                  ),
+                ),
                 child: const Home(),
               ),
-              // * Carga
-              if (cargaBAN) const Carga(),
               // * Intro
-              /* if (init.read("Intro") == null)
-                SizedBox( 
+              if (init.read("Intro") == null)
+                SizedBox(
                   width: media.ancho,
                   height: media.alto,
                   child: const Intro(),
-                ), */
+                ),
+              // * Carga
+              if (cargaBAN) const Carga(),
             ],
           ),
         ),

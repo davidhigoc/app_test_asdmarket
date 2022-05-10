@@ -38,6 +38,7 @@ class _LoginState extends State<Login> {
 
   // ! ACCIÓN
   actividadPage() async {
+    UsID userID = Provider.of<UsID>(context, listen: false);
     setState(() {
       esperar = true;
       menEr = false;
@@ -49,6 +50,7 @@ class _LoginState extends State<Login> {
       case 0:
         if (pass.text.trim().length >= 6) {
           if (correo.text.trim().isNotEmpty) {
+            userID.est = 1;
             await context
                 .read<ElUser>()
                 .inicioS(correo.text.trim(), pass.text.trim(), context)
@@ -84,7 +86,6 @@ class _LoginState extends State<Login> {
       case 2:
         if (pass.text.trim().length >= 6) {
           if (correo.text.trim().isNotEmpty) {
-            UsID userID = Provider.of<UsID>(context, listen: false);
             userID.est = 1;
             await context
                 .read<ElUser>()
