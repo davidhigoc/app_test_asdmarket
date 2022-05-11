@@ -25,27 +25,26 @@ class _ProcesoB extends State<Carga> {
     final media = Provider.of<Media>(context);
 
     double ancho = media.ancho;
-    double alto = media.alto;
+    double altop = media.altop;
 
-    return Container(
-      width: ancho,
-      height: alto,
-      color: Color(media.ama),
-      child: SafeArea(
-        child: Container(
-          width: ancho,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Color(media.ama),
-                Color(media.verde),
-              ],
-            ),
+    return SafeArea(
+      child: Container(
+        width: ancho,
+        height: altop,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color(media.ama),
+              Color(media.verde),
+            ],
           ),
-          child: Center(
-            child: Container(
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Container(
               width: 150,
               height: 150,
               decoration: const BoxDecoration(
@@ -64,7 +63,11 @@ class _ProcesoB extends State<Carga> {
                 ),
               ),
             ),
-          ),
+            SizedBox(
+              height: 100,
+              child: Image.asset("Assets/Images/Base/titulo_App.png"),
+            )
+          ],
         ),
       ),
     );

@@ -5,6 +5,7 @@ import 'package:asd_market/Service/Provider/user_id.dart';
 import 'package:asd_market/Service/Widgets/widget.dart';
 import 'package:asd_market/User/anuncios.dart';
 import 'package:asd_market/User/edit_profile.dart';
+import 'package:asd_market/User/notify.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
@@ -19,34 +20,71 @@ class _PageUserState extends State<PageUser> {
   // VARIABLES
   bool est = true;
   List? anunciosU;
+  List? notifyU;
   bool config = false;
 
   // FUNCIONES
   Future consultas() async {
     UsID userID = Provider.of<UsID>(context, listen: false);
-    fireUser
-        .doc("Public")
-        .collection("${userID.uPri!["Year"]}")
-        .doc("${userID.uPri!["Asinu"]}")
-        .collection("Anun")
-        .orderBy('Fecha', descending: true)
-        .get()
-        .then((anun) {
-      if (anun.size > 0) {
-        List listatem = [];
-        for (var element in anun.docs) {
-          listatem.add(element.data());
-        }
-        setState(() {
-          anunciosU = listatem;
-        });
-      } else {
-        setState(() {
-          anunciosU = [];
+    if (est) {
+      if (anunciosU == null) {
+        fireUser
+            .doc("Public")
+            .collection("${userID.uPri!["Year"]}")
+            .doc("${userID.uPri!["Asinu"]}")
+            .collection("Anun")
+            .orderBy('Fecha', descending: true)
+            .get()
+            .then((anun) {
+          if (anun.size > 0) {
+            List listatem = [];
+            for (var element in anun.docs) {
+              listatem.add(element.data());
+            }
+            setState(() {
+              anunciosU = listatem;
+            });
+          } else {
+            setState(() {
+              anunciosU = [];
+            });
+          }
         });
       }
-      {}
-    });
+    } else {
+      if (notifyU == null) {
+        fireUser
+            .doc("Public")
+            .collection("${userID.uPri!["Year"]}")
+            .doc("${userID.uPri!["Asinu"]}")
+            .collection("Notify")
+            .orderBy('FechaCom', descending: true)
+            .get()
+            .then((noti) {
+          if (noti.size > 0) {
+            List listatem = [];
+            for (var element in noti.docs) {
+              listatem.add(element.data());
+            }
+            setState(() {
+              notifyU = listatem;
+            });
+            // Seteamos notificaciones del usuario
+            if (userID.uPub!["Not"] > 0) {
+              fireUser
+                  .doc("Public")
+                  .collection("${userID.uPri!["Year"]}")
+                  .doc("${userID.uPri!["Asinu"]}")
+                  .update({"Not": 0});
+            }
+          } else {
+            setState(() {
+              notifyU = [];
+            });
+          }
+        });
+      }
+    }
   }
 
   @override
@@ -295,6 +333,7 @@ class _PageUserState extends State<PageUser> {
                                             setState(() {
                                               est = true;
                                             });
+                                            consultas();
                                           },
                                           style: ButtonStyle(
                                             backgroundColor: est == true
@@ -324,6 +363,7 @@ class _PageUserState extends State<PageUser> {
                                             setState(() {
                                               est = false;
                                             });
+                                            consultas();
                                           },
                                           style: ButtonStyle(
                                             backgroundColor: est == false
@@ -335,7 +375,9 @@ class _PageUserState extends State<PageUser> {
                                                   ),
                                           ),
                                           child: Text(
-                                            "Notificaciones",
+                                            userID.uPub!["Not"] > 0
+                                                ? "Notificaciones   (${userID.uPub!["Not"]})"
+                                                : "Notificaciones",
                                             style: TextStyle(
                                               color: !est
                                                   ? Colors.white
@@ -348,19 +390,7 @@ class _PageUserState extends State<PageUser> {
                                   ),
                                 ),
                               ),
-                              /* // TEXTO
-                        Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: SizedBox(
-                            width: ancho - 40,
-                            child: const Text(
-                              "Más recientes:",
-                              style: TextStyle(
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ), */
+
                               //  ANUNCIOS
                               if (est)
                                 SizedBox(
@@ -374,9 +404,17 @@ class _PageUserState extends State<PageUser> {
                                                   Padding(
                                                     padding:
                                                         const EdgeInsets.only(
-                                                            bottom: 10.0),
+                                                      bottom: 10.0,
+                                                    ),
                                                     child: GestureDetector(
-                                                      onTap: () {},
+                                                      onTap: () async {
+                                                        eliminarAnuncios(
+                                                            context,
+                                                            anunciosU![z]
+                                                                ["Doc"]);
+                                                        anunciosU = null;
+                                                        consultas();
+                                                      },
                                                       child: AnunciosUser(
                                                         anunciosU: anunciosU!,
                                                         z: z,
@@ -412,7 +450,55 @@ class _PageUserState extends State<PageUser> {
                                         ),
                                 ),
                               //  NOTIFICACIONES
-                              //
+                              if (!est)
+                                SizedBox(
+                                  child: notifyU != null
+                                      ? notifyU!.isNotEmpty
+                                          ? Wrap(
+                                              children: [
+                                                for (var z = 0;
+                                                    z <= notifyU!.length - 1;
+                                                    z++)
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            bottom: 10.0),
+                                                    child: GestureDetector(
+                                                      onTap: () {},
+                                                      child: NotifyUser(
+                                                        notify: notifyU!,
+                                                        z: z,
+                                                      ),
+                                                    ),
+                                                  ),
+                                              ],
+                                            )
+                                          : SizedBox(
+                                              width: ancho,
+                                              height: 50,
+                                              child: const Center(
+                                                child: Text(
+                                                  "No tienes notificaciones",
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                      : SizedBox(
+                                          width: ancho,
+                                          height: 50,
+                                          child: const Center(
+                                            child: SizedBox(
+                                              width: 25,
+                                              height: 25,
+                                              child: CircularProgressIndicator(
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                ),
                             ],
                           ),
                         ),
