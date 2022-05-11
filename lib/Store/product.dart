@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:asd_market/RegisLogin/regis_login.dart';
 import 'package:asd_market/Service/Firebase/firestore.dart';
 import 'package:asd_market/Service/Provider/media.dart';
 import 'package:asd_market/Service/Provider/user_id.dart';
@@ -143,7 +144,7 @@ class _StoreState extends State<Product> {
   @override
   Widget build(BuildContext context) {
     final media = Provider.of<Media>(context, listen: false);
-    // UsID userID = Provider.of<UsID>(context, listen: false);
+    UsID userID = Provider.of<UsID>(context);
 
     double ancho = media.ancho;
     double altop = media.altop;
@@ -425,48 +426,109 @@ class _StoreState extends State<Product> {
                             height: 30,
                           ),
                           // * Boton de comprar
-                          SizedBox(
-                            width: ancho - 50,
-                            height: 45,
-                            child: ElevatedButton(
-                              onPressed: !esperar
-                                  ? () {
-                                      comprar();
-                                    }
-                                  : null,
-                              /* onLongPress: () {
-                                print("${userID.uPri!.data()}");
-                              }, */
-                              style: ButtonStyle(
-                                shape: MaterialStateProperty.all(
-                                  RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
-                                ),
-                                backgroundColor: MaterialStateProperty.all(
-                                  Color(media.azul),
-                                ),
-                              ),
-                              child: !esperar
-                                  ? const Padding(
-                                      padding: EdgeInsets.all(10.0),
-                                      child: Text(
-                                        "Comprar",
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w700,
+                          Container(
+                            child: proCompleto!["RutaU"]["Asinu"] !=
+                                    userID.uPri!["Asinu"]
+                                ? userID.usuarioT
+                                    ? SizedBox(
+                                        width: ancho - 50,
+                                        height: 45,
+                                        child: ElevatedButton(
+                                          onPressed: !esperar
+                                              ? () {
+                                                  comprar();
+                                                }
+                                              : null,
+                                          /* onLongPress: () {
+                                  print("${userID.uPri!.data()}");
+                                }, */
+                                          style: ButtonStyle(
+                                            shape: MaterialStateProperty.all(
+                                              RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(30),
+                                              ),
+                                            ),
+                                            backgroundColor:
+                                                MaterialStateProperty.all(
+                                              Color(media.azul),
+                                            ),
+                                          ),
+                                          child: !esperar
+                                              ? const Padding(
+                                                  padding: EdgeInsets.all(10.0),
+                                                  child: Text(
+                                                    "Comprar",
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                    ),
+                                                  ),
+                                                )
+                                              : const SizedBox(
+                                                  width: 25,
+                                                  height: 25,
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
                                         ),
-                                      ),
-                                    )
-                                  : const SizedBox(
-                                      width: 25,
-                                      height: 25,
-                                      child: CircularProgressIndicator(
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                            ),
+                                      )
+                                    : SizedBox(
+                                        width: ancho - 50,
+                                        height: 45,
+                                        child: ElevatedButton(
+                                          onPressed: () {
+                                            Navigator.of(context)
+                                                .push(
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const Login(),
+                                              ),
+                                            )
+                                                .then((value) {
+                                              setState(() {});
+                                            });
+                                          },
+                                          style: ButtonStyle(
+                                            shape: MaterialStateProperty.all(
+                                              RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(30),
+                                              ),
+                                            ),
+                                            backgroundColor:
+                                                MaterialStateProperty.all(
+                                              Color(media.azul),
+                                            ),
+                                          ),
+                                          child: !esperar
+                                              ? const Padding(
+                                                  padding: EdgeInsets.all(10.0),
+                                                  child: Text(
+                                                    "Iniciar Sesión",
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                    ),
+                                                  ),
+                                                )
+                                              : const SizedBox(
+                                                  width: 25,
+                                                  height: 25,
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                        ),
+                                      )
+                                : const SizedBox(),
                           ),
                           // * Boton de Descripción
                           Padding(

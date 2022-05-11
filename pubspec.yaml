@@ -39,15 +39,18 @@ dev_dependencies:
   get_storage: ^2.0.3
   image_picker: ^0.8.5
   image_cropper: ^2.0.2
+  flutter_launcher_icons: "^0.9.2"
 
   # change_app_package_name: ^1.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
-
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "Assets/Images/Base/Icon2.png"
 # The following section is specific to Flutter.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -56,6 +59,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
   ### BASE
+    - Assets/Images/Base/IconoApp.png
     - Assets/Images/Base/Icon1.png
     - Assets/Images/Base/Icon2.png
     - Assets/Images/Base/titulo_App.png
@@ -64,6 +68,7 @@ flutter:
     - Assets/Images/Base/Intro_2.png
     - Assets/Images/Base/Intro_3.png
     - Assets/Images/Base/techo.png
+    
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
