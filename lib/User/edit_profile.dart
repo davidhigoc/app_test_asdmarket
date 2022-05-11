@@ -231,6 +231,7 @@ class _PageUserState extends State<EditPerfil> {
                                 ancho / 1.8,
                                 userID.uPub!["Foto"],
                                 media.azul,
+                                true,
                               )
                             : fotoFile(
                                 ancho / 1.8,

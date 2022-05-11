@@ -193,7 +193,11 @@ class _PageUserState extends State<PageUser> {
                                   Padding(
                                     padding: const EdgeInsets.all(10.0),
                                     child: fotoURL(
-                                        130, userID.uPub!["Foto"], media.azul),
+                                      130,
+                                      userID.uPub!["Foto"],
+                                      media.azul,
+                                      true,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -451,7 +455,7 @@ class _PageUserState extends State<PageUser> {
                                       config = !config;
                                     });
                                   },
-                                  icon: config
+                                  icon: !config
                                       ? const Icon(
                                           Icons.expand_more,
                                           color: Colors.white,

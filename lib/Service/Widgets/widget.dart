@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 
 // FOTO DE USUARIOS [STANDARD]
-Container fotoURL(double diametro, String url, dynamic color) {
+Container fotoURL(double diametro, String url, dynamic color, bool sombra) {
   return Container(
     decoration: BoxDecoration(
       color: Colors.white,
       shape: BoxShape.circle,
-      boxShadow: [
-        BoxShadow(
-          blurRadius: diametro / 3,
-          color: Colors.black,
-          spreadRadius: 1,
-        ),
-      ],
+      boxShadow: sombra
+          ? [
+              BoxShadow(
+                blurRadius: diametro / 3,
+                color: Colors.grey.shade700,
+                spreadRadius: 1,
+              ),
+            ]
+          : null,
     ),
     child: CircleAvatar(
       backgroundColor: Color(color),

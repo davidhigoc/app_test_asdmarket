@@ -4,6 +4,7 @@ import 'package:asd_market/Service/Provider/media.dart';
 import 'package:asd_market/Service/Provider/user_id.dart';
 import 'package:asd_market/Service/Widgets/widget.dart';
 import 'package:asd_market/Store/new_product.dart';
+import 'package:asd_market/Store/store.dart';
 import 'package:asd_market/User/page_user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -171,8 +172,8 @@ class _HomeState extends State<Home> {
                           Padding(
                             padding: const EdgeInsets.only(
                                 top: 10.0, bottom: 10.0, left: 25, right: 10.0),
-                            child:
-                                fotoURL(130, userID.uPub!["Foto"], media.azul),
+                            child: fotoURL(
+                                130, userID.uPub!["Foto"], media.azul, true),
                           ),
                           // Boton de vender
                           SizedBox(
@@ -254,51 +255,64 @@ class _HomeState extends State<Home> {
                                     Padding(
                                       padding:
                                           const EdgeInsets.only(bottom: 15.0),
-                                      child: Container(
-                                        width: ((ancho - 20) / 2) - 20,
-                                        height: (((ancho - 20) / 2) - 20) + 50,
-                                        decoration: const BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.all(
-                                            Radius.circular(8),
-                                          ),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Colors.black12,
-                                              offset: Offset(2, 2),
-                                              blurRadius: 1,
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  Store(cat: cat),
                                             ),
-                                            BoxShadow(
-                                              color: Colors.black12,
-                                              offset: Offset(-2, -2),
-                                              blurRadius: 1,
-                                            )
-                                          ],
-                                        ),
-                                        child: Column(
-                                          children: [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(4.0),
-                                              child: SizedBox(
-                                                width: ancho,
-                                                child:
-                                                    Image.network(cat["Image"]),
+                                          );
+                                        },
+                                        child: Container(
+                                          width: ((ancho - 20) / 2) - 20,
+                                          height:
+                                              (((ancho - 20) / 2) - 20) + 50,
+                                          decoration: const BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.all(
+                                              Radius.circular(8),
+                                            ),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.black12,
+                                                offset: Offset(2, 2),
+                                                blurRadius: 1,
                                               ),
-                                            ),
-                                            SizedBox(
-                                              width: ancho,
-                                              height: 50,
-                                              child: Center(
-                                                child: Text(
-                                                  cat["Categ"],
-                                                  style: TextStyle(
-                                                    color: Colors.grey.shade800,
+                                              BoxShadow(
+                                                color: Colors.black12,
+                                                offset: Offset(-2, -2),
+                                                blurRadius: 1,
+                                              )
+                                            ],
+                                          ),
+                                          child: Column(
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(4.0),
+                                                child: SizedBox(
+                                                  width: ancho,
+                                                  child: Image.network(
+                                                    cat["Image"],
                                                   ),
                                                 ),
                                               ),
-                                            ),
-                                          ],
+                                              SizedBox(
+                                                width: ancho,
+                                                height: 50,
+                                                child: Center(
+                                                  child: Text(
+                                                    cat["Categ"],
+                                                    style: TextStyle(
+                                                      color:
+                                                          Colors.grey.shade800,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -323,6 +337,7 @@ class _HomeState extends State<Home> {
                             ),
                     ),
                   ),
+                  // Mensaje Inicial []
                   Positioned(
                     top: -25,
                     child: SizedBox(
@@ -370,35 +385,3 @@ class _HomeState extends State<Home> {
     );
   }
 }
-
-
-
-/* child: Center(
-  child: SizedBox(
-    width: ancho * 0.85,
-    height: 40,
-    child: ElevatedButton(
-      onPressed: () {
-        context.read<ElUser>().salir(context);
-      },
-      style: ButtonStyle(
-        shape: MaterialStateProperty.all(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30),
-          ),
-        ),
-        backgroundColor: MaterialStateProperty.all(
-          Color(media.azul),
-        ),
-      ),
-      child: const Text(
-        "Cerrar Sesión",
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 16,
-          fontWeight: FontWeight.w700,
-        ),
-      ),
-    ),
-  ),
-), */

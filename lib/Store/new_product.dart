@@ -120,12 +120,12 @@ class _NewProductState extends State<NewProduct> {
                     "Titulo": tituloC.text.trim(),
                     "Descrip": descripC.text.trim(),
                     "Precio": precioC.text.trim(),
-                    "Usado": anuNuevo,
                     "Envio": envio,
                     "RutaU": userID.uPri!.data(),
                     "Fecha": DateTime.now(),
                     "Est": "Disponible",
                     "Fotos": laResp[1],
+                    "Doc": "Anun$conseAnun",
                   }).then((vali) async {
                     await Future.delayed(const Duration(milliseconds: 500));
                     // ignore: avoid_print
@@ -421,7 +421,7 @@ class _NewProductState extends State<NewProduct> {
                             child: SizedBox(
                               width: ancho - 40,
                               child: Text(
-                                "Introduce un titulo llamativo de máximo de 60 caracteres.",
+                                "Introduce un titulo llamativo de máximo de 80 caracteres.",
                                 style: TextStyle(
                                   color: Colors.grey.shade800,
                                   fontWeight: FontWeight.w400,
@@ -441,7 +441,7 @@ class _NewProductState extends State<NewProduct> {
                               keyboardType: TextInputType.multiline,
                               textCapitalization: TextCapitalization.sentences,
                               textAlign: TextAlign.left,
-                              maxLength: 60,
+                              maxLength: 80,
                               maxLines: 2,
                               decoration: InputDecoration(
                                 filled: true,

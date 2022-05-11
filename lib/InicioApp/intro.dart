@@ -107,7 +107,7 @@ class _IntroState extends State<Intro> {
                   ],
                 ),
               ),
-              // Bienvenida
+              // Boton de Siguiente
               SizedBox(
                 width: ancho,
                 height: 80,
